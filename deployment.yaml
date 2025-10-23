@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stack-exhauster-deployment
+  labels:
+    app: stack-exhauster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stack-exhauster
+  template:
+    metadata:
+      name: stack-exhauster-app
+      labels:
+        app: stack-exhauster
+    spec:
+      containers:
+        - name: stack-exhauster-container
+          image: stack-exhauster:latest
+          imagePullPolicy: Never # Important for local images in Kind
+          command: ["./stack-exhauster"]
+          resources:
+            limits:
+              memory: "64Mi"
+              cpu: "200m"
